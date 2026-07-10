@@ -1,0 +1,29 @@
+/* Docs-specific tweaks for Grafiq mockups embedded in prose. */
+
+.grafiq-mockup {
+  display: block;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  padding: 12px;
+  background: #fff;
+}
+
+.grafiq-mockup__surface {
+  border-radius: 6px;
+}
+
+/* Keep the fallback source readable within VitePress content. */
+.grafiq-mockup__source {
+  background: var(--vp-c-bg-alt);
+  border-color: var(--vp-c-divider);
+  color: var(--vp-c-text-1);
+}
+
+/* Match the editable code panel to VitePress theming. */
+.grafiq-mockup__code {
+  background: var(--vp-c-bg-alt);
+  border-color: var(--vp-c-divider);
+  color: var(--vp-c-text-1);
+}
+
+

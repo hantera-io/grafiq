@@ -1,0 +1,76 @@
+{
+  "name": "@grafiq/markdown-it",
+  "version": "0.1.0",
+  "description": "markdown-it plugin that renders Grafiq mockups from fenced code blocks, with client-side hydration and a built-in lightbox.",
+  "type": "module",
+  "license": "Apache-2.0",
+
+  "author": "Hantera (https://www.hantera.io/)",
+
+  "homepage": "https://www.grafiq.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hantera-io/grafiq.git",
+    "directory": "packages/markdown-it"
+  },
+  "bugs": {
+    "url": "https://github.com/hantera-io/grafiq/issues"
+  },
+  "keywords": [
+    "grafiq",
+    "markdown-it",
+    "markdown-it-plugin",
+    "mockup",
+    "wireframe",
+    "dsl",
+    "hydrate"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "dist",
+    "src/styles.css"
+  ],
+  "main": "./dist/grafiq-index.js",
+  "module": "./dist/grafiq-index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/grafiq-index.js"
+    },
+    "./hydrate": {
+      "types": "./dist/hydrate.d.ts",
+      "default": "./dist/grafiq-hydrate.js"
+    },
+    "./styles.css": "./src/styles.css"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build",
+    "prepack": "yarn build",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@grafiq/core": "^0.1.0"
+  },
+  "peerDependencies": {
+    "markdown-it": ">=13"
+  },
+  "peerDependenciesMeta": {
+    "markdown-it": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14.1.0",
+    "markdown-it": "^14.1.0",
+    "typescript": "^5.4.0",
+    "vite": "^5.2.0",
+    "vite-plugin-dts": "^3.9.0"
+  }
+}

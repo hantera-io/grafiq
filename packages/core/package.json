@@ -1,0 +1,59 @@
+{
+  "name": "@grafiq/core",
+  "version": "0.1.0",
+  "description": "Grafiq core — the hand-drawn mockup DSL parser and canvas renderer.",
+  "type": "module",
+  "license": "Apache-2.0",
+
+  "author": "Hantera (https://www.hantera.io/)",
+
+  "homepage": "https://www.grafiq.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hantera-io/grafiq.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/hantera-io/grafiq/issues"
+  },
+  "keywords": [
+    "grafiq",
+    "mockup",
+    "wireframe",
+    "dsl",
+    "canvas",
+    "roughjs",
+    "sketch",
+    "balsamiq"
+  ],
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/grafiq-core.js",
+  "module": "./dist/grafiq-core.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/grafiq-core.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build",
+    "prepack": "yarn build",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "roughjs": "^4.6.6"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vite": "^5.2.0",
+    "vite-plugin-dts": "^3.9.0"
+  }
+}

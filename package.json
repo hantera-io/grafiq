@@ -1,0 +1,26 @@
+{
+  "name": "grafiq-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A hand-drawn mockup DSL with canvas rendering — a code-backed Balsamiq for LLM-assisted specs.",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "yarn workspace @grafiq/core build && yarn workspace @grafiq/markdown-it build",
+    "dev": "yarn workspace @grafiq/playground dev",
+    "playground:dev": "yarn workspace @grafiq/playground dev",
+    "playground:build": "yarn workspace @grafiq/playground build",
+    "docs:dev": "yarn workspace @grafiq/docs dev",
+    "docs:build": "yarn workspace @grafiq/docs build",
+    "core:build": "yarn workspace @grafiq/core build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.0",
+    "typescript": "^5.4.0",
+    "vite": "^5.2.0"
+  }
+
+}

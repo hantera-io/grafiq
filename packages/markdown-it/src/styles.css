@@ -1,0 +1,168 @@
+/* Styles for hydrated Grafiq mockups and the fullscreen lightbox.
+   Import once in your app: `import "@grafiq/markdown-it/styles.css";` */
+
+.grafiq-mockup {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  margin: 1rem 0;
+}
+
+.grafiq-mockup__surface {
+  display: block;
+  overflow: auto;
+  max-width: 100%;
+}
+
+/* `hidden` attribute must win over the display rules above/below. */
+.grafiq-mockup__surface[hidden],
+.grafiq-mockup__editor[hidden] {
+  display: none;
+}
+
+
+.grafiq-mockup__surface canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* No-JS / pre-hydration fallback source. */
+.grafiq-mockup__source {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  background: #f6f6f6;
+  border: 1px dashed #d0d0d0;
+  border-radius: 6px;
+  overflow: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+}
+
+/* Toolbar (top-right of the mockup): code toggle, reset, fullscreen. */
+.grafiq-mockup__toolbar {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+.grafiq-mockup:hover .grafiq-mockup__toolbar,
+.grafiq-mockup__toolbar:focus-within {
+  opacity: 1;
+}
+
+.grafiq-mockup__btn {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #444;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.grafiq-mockup__btn:hover,
+.grafiq-mockup__btn--active {
+  background: #fff;
+  color: #000;
+}
+
+.grafiq-mockup__btn--active {
+  border-color: rgba(0, 0, 0, 0.35);
+}
+
+/* Editable source panel (shown when the code view is toggled on). */
+.grafiq-mockup__editor {
+  display: block;
+}
+
+.grafiq-mockup__code {
+  display: block;
+  width: 100%;
+  min-height: 160px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  resize: vertical;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  background: #f6f6f6;
+  color: #222;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  tab-size: 2;
+}
+
+.grafiq-mockup__code:read-only {
+  cursor: default;
+}
+
+.grafiq-mockup__code:focus {
+  outline: 2px solid rgba(47, 111, 176, 0.5);
+  outline-offset: -1px;
+}
+
+
+/* Lightbox overlay. */
+.grafiq-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(20, 20, 20, 0.6);
+  backdrop-filter: blur(2px);
+}
+
+.grafiq-lightbox__dialog {
+  position: relative;
+  max-width: 95vw;
+  max-height: 92vh;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  padding: 16px;
+}
+
+.grafiq-lightbox__body {
+  overflow: auto;
+  max-width: calc(95vw - 32px);
+  max-height: calc(92vh - 32px);
+}
+
+.grafiq-lightbox__body canvas {
+  display: block;
+}
+
+.grafiq-lightbox__close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: #2a2a2a;
+  color: #fff;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.grafiq-lightbox__close:hover {
+  background: #000;
+}

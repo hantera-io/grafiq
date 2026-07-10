@@ -1,0 +1,19 @@
+{
+  "name": "@grafiq/playground",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Interactive Grafiq playground — live DSL editor with canvas preview.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@grafiq/core": "0.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vite": "^5.2.0"
+  }
+}
