@@ -4,6 +4,7 @@
   "private": true,
   "description": "A hand-drawn mockup DSL with canvas rendering — a code-backed Balsamiq for LLM-assisted specs.",
   "type": "module",
+  "packageManager": "yarn@4.9.1",
   "workspaces": [
     "packages/*",
     "apps/*"
@@ -25,6 +26,4 @@
     "vite": "^5.2.0",
     "wrangler": "^4.0.0"
   }
-
-
 }

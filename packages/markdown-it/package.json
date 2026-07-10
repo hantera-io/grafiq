@@ -4,9 +4,7 @@
   "description": "markdown-it plugin that renders Grafiq mockups from fenced code blocks, with client-side hydration and a built-in lightbox.",
   "type": "module",
   "license": "Apache-2.0",
-
   "author": "Hantera (https://www.hantera.io/)",
-
   "homepage": "https://www.grafiq.dev",
   "repository": {
     "type": "git",

@@ -4,9 +4,7 @@
   "description": "Grafiq core — the hand-drawn mockup DSL parser and canvas renderer.",
   "type": "module",
   "license": "Apache-2.0",
-
   "author": "Hantera (https://www.hantera.io/)",
-
   "homepage": "https://www.grafiq.dev",
   "repository": {
     "type": "git",
