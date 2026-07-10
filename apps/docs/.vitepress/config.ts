@@ -10,6 +10,11 @@ export default defineConfig({
     "A code-backed hand-drawn mockup DSL — Mermaid for wireframes, LLM-friendly.",
   lang: "en-US",
 
+  // Emit extensionless URLs so links match Cloudflare Workers' static-asset
+  // serving (which redirects /foo.html -> /foo by default).
+  cleanUrls: true,
+
+
   // Dogfood the markdown-it plugin: ```grafiq fences become interactive mockups.
   markdown: {
     config(md) {

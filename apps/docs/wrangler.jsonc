@@ -1,0 +1,15 @@
+{
+  // Cloudflare Workers (Static Assets) config for the Grafiq docs site.
+  // Deploy from repo root with:
+  //   npx wrangler deploy --config apps/docs/wrangler.jsonc
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "grafiq-docs",
+  "compatibility_date": "2026-07-10",
+  "assets": {
+    // Paths resolve relative to this config file.
+    // VitePress emits the built site to .vitepress/dist.
+    "directory": "./.vitepress/dist",
+    // VitePress emits a 404.html for unmatched routes.
+    "not_found_handling": "404-page"
+  }
+}

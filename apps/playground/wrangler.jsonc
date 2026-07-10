@@ -1,0 +1,15 @@
+{
+  // Cloudflare Workers (Static Assets) config for the Grafiq playground.
+  // Deploy from repo root with:
+  //   npx wrangler deploy --config apps/playground/wrangler.jsonc
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "grafiq-playground",
+  "compatibility_date": "2026-07-10",
+  "assets": {
+    // Paths resolve relative to this config file.
+    // Vite emits the built SPA to dist.
+    "directory": "./dist",
+    // Serve index.html for unmatched routes (SPA fallback).
+    "not_found_handling": "single-page-application"
+  }
+}

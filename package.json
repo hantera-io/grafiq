@@ -15,12 +15,16 @@
     "playground:build": "yarn workspace @grafiq/playground build",
     "docs:dev": "yarn workspace @grafiq/docs dev",
     "docs:build": "yarn workspace @grafiq/docs build",
-    "core:build": "yarn workspace @grafiq/core build"
+    "core:build": "yarn workspace @grafiq/core build",
+    "docs:deploy": "yarn docs:build && wrangler deploy --config apps/docs/wrangler.jsonc",
+    "playground:deploy": "yarn playground:build && wrangler deploy --config apps/playground/wrangler.jsonc"
   },
   "devDependencies": {
     "@types/node": "^20.12.0",
     "typescript": "^5.4.0",
-    "vite": "^5.2.0"
+    "vite": "^5.2.0",
+    "wrangler": "^4.0.0"
   }
+
 
 }
