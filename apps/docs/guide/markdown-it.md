@@ -25,8 +25,18 @@ import grafiq from "@grafiq/markdown-it";
 const md = new MarkdownIt().use(grafiq);
 
 const html = md.render("```grafiq\nbutton \"Save\" primary\n```");
-// -> <div class="grafiq-mockup" data-grafiq-source="button &quot;Save&quot; primary"></div>
+// ->
+// <div class="grafiq-mockup" data-grafiq-source="button &quot;Save&quot; primary">
+//   <pre class="grafiq-mockup__source"><code>button "Save" primary</code></pre>
+// </div>
 ```
+
+This `<div>` is the SSR-safe **placeholder** — no canvas is rendered at build
+time. On the client, [`hydrate()`](#hydrating-on-the-client) replaces it with a
+live, interactive `<canvas>`. The inner `<pre>` is the no-JS fallback (kept
+because `fallbackSource` defaults to `true`); it keeps the source visible when
+JavaScript is disabled and is discarded during hydration. Set
+`fallbackSource: false` to emit just the empty placeholder `<div>`.
 
 ### Plugin options
 

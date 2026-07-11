@@ -22,8 +22,16 @@ import grafiq from "@grafiq/markdown-it";
 
 const md = new MarkdownIt().use(grafiq);
 md.render("```grafiq\nbutton \"Save\" primary\n```");
-// -> <div class="grafiq-mockup" data-grafiq-source="…">…</div>
+// ->
+// <div class="grafiq-mockup" data-grafiq-source="button &quot;Save&quot; primary">
+//   <pre class="grafiq-mockup__source"><code>button "Save" primary</code></pre>
+// </div>
 ```
+
+This `<div>` is the SSR-safe placeholder; `hydrate()` replaces it with a live
+`<canvas>` on the client. The inner `<pre>` is the no-JS fallback (kept while
+`fallbackSource` defaults to `true`); set `fallbackSource: false` to emit just
+the empty placeholder `<div>`.
 
 Options:
 
