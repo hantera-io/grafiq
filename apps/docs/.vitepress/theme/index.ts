@@ -10,6 +10,18 @@ import { nextTick, onMounted, watch } from "vue";
 import "@grafiq/markdown-it/styles.css";
 import "./custom.css";
 
+// Track SPA route changes. The initial page view is tracked by the
+// inline snippet injected via `head` in config.ts; this handles subsequent
+// client-side navigations.
+function trackPageView() {
+  if (typeof window === "undefined") return;
+  const _paq = ((window as any)._paq = (window as any)._paq || []);
+  _paq.push(["setCustomUrl", window.location.href]);
+  _paq.push(["setDocumentTitle", document.title]);
+  _paq.push(["setReferrerUrl", document.referrer]);
+  _paq.push(["trackPageView"]);
+}
+
 async function hydrateMockups() {
   if (typeof window === "undefined") return;
   // Ensure the Balsamiq font is ready so text metrics are correct.
@@ -35,7 +47,10 @@ const theme: Theme = {
     watch(
       () => route.path,
       () => {
-        nextTick(hydrateMockups);
+        nextTick(() => {
+          trackPageView();
+          hydrateMockups();
+        });
       }
     );
   },
