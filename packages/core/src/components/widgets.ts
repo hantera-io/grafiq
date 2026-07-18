@@ -16,8 +16,6 @@ import {
   str,
 } from "./registry.ts";
 
-const CH = SPACING.controlHeight;
-
 function textOf(node: Node, dflt = ""): string {
   return node.text ?? dflt;
 }
