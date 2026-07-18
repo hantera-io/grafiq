@@ -1,6 +1,6 @@
 {
   "name": "@grafiq/markdown-it",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "markdown-it plugin that renders Grafiq mockups from fenced code blocks, with client-side hydration and a built-in lightbox.",
   "type": "module",
   "license": "Apache-2.0",
@@ -54,7 +54,7 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@grafiq/core": "^0.1.0"
+    "@grafiq/core": "^0.2.0"
   },
   "peerDependencies": {
     "markdown-it": ">=13"

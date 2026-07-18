@@ -1,6 +1,6 @@
 {
   "name": "@grafiq/core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Grafiq core — the hand-drawn mockup DSL parser and canvas renderer.",
   "type": "module",
   "license": "Apache-2.0",
