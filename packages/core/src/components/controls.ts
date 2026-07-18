@@ -2,7 +2,8 @@
 // returning its intrinsic size and a draw() using Pen primitives.
 
 import type { Box, Node } from "../types.ts";
-import { SPACING } from "../render/theme.ts";
+import { SPACING, VARIANTS } from "../render/theme.ts";
+import { getIcon } from "../render/icons.ts";
 import {
   type Component,
   type CompContext,
@@ -233,9 +234,9 @@ const toggle: Component = {
 
 // --- select / slider ----------------------------------------------------------
 
-/** Options for a select: from `options="a, b, c"` or a sensible fallback. */
+/** Options for a select: from `options="a, b, c"` (or `items=`) or a fallback. */
 function selectOptions(node: Node): string[] {
-  const raw = str(node, "options");
+  const raw = str(node, "options") || str(node, "items");
   if (raw) return raw.split(",").map((s) => s.trim()).filter(Boolean);
   return ["Option 1", "Option 2", "Option 3"];
 }
@@ -383,6 +384,13 @@ const avatar: Component = {
   },
 };
 
+/** Resolve `color=` for icons: semantic variant names or any CSS color. */
+function iconColor(node: Node, ctx: CompContext): string {
+  const c = str(node, "color");
+  if (!c) return ctx.pen.theme.ink;
+  return VARIANTS[c]?.stroke ?? c;
+}
+
 const icon: Component = {
   measure(node) {
     const d = explicitW(node) ?? num(node, "size", 24);
@@ -393,8 +401,14 @@ const icon: Component = {
     const x = box.x;
     const y = box.y;
     const name = str(node, "name", node.text ?? "star");
-    ctx.pen.rect(x, y, d, d, { stroke: ctx.pen.theme.inkLight });
-    ctx.pen.text(name.slice(0, 3), x + d / 2, y + d / 2, { align: "center", size: 10, color: ctx.pen.theme.inkLight });
+    const glyph = getIcon(name);
+    if (glyph) {
+      glyph(ctx.pen, x, y, d, iconColor(node, ctx));
+    } else {
+      // Unknown name: fall back to the labeled placeholder square.
+      ctx.pen.rect(x, y, d, d, { stroke: ctx.pen.theme.inkLight });
+      ctx.pen.text(name.slice(0, 3), x + d / 2, y + d / 2, { align: "center", size: 10, color: ctx.pen.theme.inkLight });
+    }
   },
 };
 

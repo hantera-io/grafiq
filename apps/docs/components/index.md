@@ -10,20 +10,33 @@ fullscreen. The code blocks below _are_ the examples; there's no separate copy
 to fall out of date.
 :::
 
-Browse by category:
+Each component has its own page (see the sidebar for the full alphabetical
+list). By category:
 
-
-- **[Text](/components/text)** — `heading`, `text`, `link`
-- **[Inputs](/components/inputs)** — `button`, `input`, `textarea`, `search`,
-  `checkbox`, `radio`, `toggle`, `select`, `slider`
-- **[Layout & chrome](/components/layout)** — `row`, `col`, `card`, `divider`,
-  `spacer`, `navbar`, `tabs`, `sidebar`, `modal`, `screen`
-- **[Feedback & status](/components/feedback)** — `badge`, `tag`, `kbd`,
-  `alert`, `skeleton`, `note`
-- **[Navigation](/components/navigation)** — `breadcrumb`, `pagination`,
-  `stepper`, `menubar`, `menu`, `accordion`
-- **[Data & media](/components/data)** — `list`, `table`, `image`, `avatar`,
-  `icon`, `progress`, `chart`, `stat`, `rating`, `calendar`
+- **Text** — [heading](/components/heading), [text](/components/text),
+  [link](/components/link)
+- **Inputs** — [button](/components/button), [input](/components/input),
+  [textarea](/components/textarea), [search](/components/search),
+  [checkbox](/components/checkbox), [radio](/components/radio),
+  [toggle](/components/toggle), [select](/components/select),
+  [slider](/components/slider)
+- **Layout & chrome** — [row](/components/row), [col](/components/col),
+  [card](/components/card), [divider](/components/divider),
+  [spacer](/components/spacer), [navbar](/components/navbar),
+  [tabs](/components/tabs), [sidebar](/components/sidebar),
+  [modal](/components/modal), [screen](/components/screen)
+- **Feedback & status** — [badge](/components/badge), [tag](/components/tag),
+  [kbd](/components/kbd), [alert](/components/alert),
+  [skeleton](/components/skeleton), [note](/components/note)
+- **Navigation** — [breadcrumb](/components/breadcrumb),
+  [pagination](/components/pagination), [stepper](/components/stepper),
+  [menubar](/components/menubar), [accordion](/components/accordion)
+- **Data & media** — [list](/components/list), [table](/components/table),
+  [tree](/components/tree), [image](/components/image),
+  [avatar](/components/avatar), [icon](/components/icon),
+  [progress](/components/progress), [chart](/components/chart),
+  [stat](/components/stat), [rating](/components/rating),
+  [calendar](/components/calendar)
 
 ## Everything at a glance
 
@@ -57,5 +70,5 @@ row gap=20 align=start
 
 The parser accepts many synonyms so LLM-written DSL "just works". For example
 `btn` → `button`, `img` → `image`, `hbox` → `row`, `vbox` → `col`,
-`dropdown` → `select`, `switch` → `toggle`, `dialog` → `modal`,
+`dropdown`/`menu` → `select`, `switch` → `toggle`, `dialog` → `modal`,
 `window`/`page`/`phone` → `screen`.

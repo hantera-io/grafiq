@@ -12,15 +12,34 @@ import { childPath, explicitH, explicitW, flag, getComponent, num } from "../com
 
 export type Axis = "row" | "col";
 
-/** Does this child want to stretch along the given main axis? */
-export function childFills(node: Node, axis: Axis): boolean {
+/**
+ * Does this child want to grow along the given main axis?
+ * `fill` grows in both directions; `fillx`/`filly` are absolute directions
+ * (horizontal/vertical) regardless of the parent's orientation.
+ */
+export function childFillsMain(node: Node, axis: Axis): boolean {
   if (flag(node, "fill")) return true;
-  const comp = getComponent(node.type);
-  // A container marked defaultFill (none currently) or explicit fill only.
   if (axis === "row" && flag(node, "fillx")) return true;
   if (axis === "col" && flag(node, "filly")) return true;
+  const comp = getComponent(node.type);
+  // A container marked defaultFill (e.g. spacer) grows on the main axis.
   return comp?.defaultFill ?? false;
 }
+
+/**
+ * Does this child want to stretch across the cross axis?
+ * `fill` stretches both ways; `fillx` stretches horizontally inside a `col`,
+ * `filly` stretches vertically inside a `row`.
+ */
+export function childFillsCross(node: Node, axis: Axis): boolean {
+  if (flag(node, "fill")) return true;
+  if (axis === "row" && flag(node, "filly")) return true;
+  if (axis === "col" && flag(node, "fillx")) return true;
+  return false;
+}
+
+/** @deprecated Use childFillsMain (kept for backwards compatibility). */
+export const childFills = childFillsMain;
 
 export function measureFlex(
   children: Node[],
@@ -33,8 +52,11 @@ export function measureFlex(
   let main = 0;
   let cross = 0;
   const isRow = axis === "row";
-  for (const child of children) {
-    const m = ctx.measure(child, availW);
+  for (let i = 0; i < children.length; i++) {
+    const child = children[i];
+    // Measure with the child's real path so state-aware components
+    // (accordion, tree, …) size according to their interaction state.
+    const m = ctx.measure(child, availW, childPath(ctx.path, i));
     if (isRow) {
       main += m.w;
       cross = Math.max(cross, m.h);
@@ -64,8 +86,8 @@ export function arrangeFlex(
   const crossSize = isRow ? content.h : content.w;
 
   // Measure children; note which fill.
-  const sizes = children.map((c) => ctx.measure(c, isRow ? content.w : content.w));
-  const fills = children.map((c) => childFills(c, axis));
+  const sizes = children.map((c, i) => ctx.measure(c, content.w, childPath(ctx.path, i)));
+  const fills = children.map((c) => childFillsMain(c, axis));
 
   const totalGap = gap * Math.max(0, children.length - 1);
   const usedMain = sizes.reduce((s, m) => s + (isRow ? m.w : m.h), 0) + totalGap;
@@ -79,11 +101,12 @@ export function arrangeFlex(
     let mainLen = isRow ? m.w : m.h;
     if (fills[i]) mainLen += perFill;
 
-    // Cross length: explicit override, stretch, or intrinsic.
+    // Cross length: explicit override, stretch (container align or child
+    // fill/fillx/filly), or intrinsic.
     let crossLen = isRow ? m.h : m.w;
     const exCross = isRow ? explicitH(child) : explicitW(child);
     if (exCross !== undefined) crossLen = exCross;
-    else if (align === "stretch") crossLen = crossSize;
+    else if (align === "stretch" || childFillsCross(child, axis)) crossLen = crossSize;
 
     // Cross offset.
     let crossOff = isRow ? content.y : content.x;

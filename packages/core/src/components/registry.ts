@@ -15,8 +15,13 @@ export interface CompContext {
   store: InteractionStore;
   /** Path of the node currently being drawn (e.g. "0/2/1"). */
   path: string;
-  /** Measure a child subtree's intrinsic size (delegates to layout engine). */
-  measure: (node: Node, availW: number) => { w: number; h: number };
+  /**
+   * Measure a child subtree's intrinsic size (delegates to layout engine).
+   * Pass `path` so state-aware components (accordion, tree, …) can consult
+   * their interaction state while measuring; omit only for path-independent
+   * probing.
+   */
+  measure: (node: Node, availW: number, path?: string) => { w: number; h: number };
   /**
    * Arrange + draw a child subtree within a box. `childPath` must be provided
    * so interaction state / hit regions stay keyed correctly.

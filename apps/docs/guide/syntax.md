@@ -60,8 +60,10 @@ row gap=10
 - `col` — lay children out vertically.
 - Attributes on any container: `gap=N` (space between children), `pad=N`
   (inner padding), `align=start|center|end|stretch` (cross-axis).
-- Sizing: `w=N`, `h=N`, or `size=WxH`. Add the flag `fill` to stretch along the
-  parent's main axis. `spacer` is an invisible flexible gap.
+- Sizing: `w=N`, `h=N`, or `size=WxH`. Fill flags on a child claim the parent's
+  free space: `fill` stretches in **both** directions, `fillx` only
+  horizontally, `filly` only vertically. Explicit `w=`/`h=` wins over
+  stretching. `spacer` is an invisible flexible gap.
 
 ```grafiq
 row gap=12

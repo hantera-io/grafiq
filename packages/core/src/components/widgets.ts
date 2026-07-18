@@ -197,12 +197,19 @@ const pagination: Component = {
 
 // --- stepper ------------------------------------------------------------------
 
+function stepLabels(node: Node): string[] {
+  return (node.text ?? "Step 1 | Step 2 | Step 3").split("|").map((s) => s.trim());
+}
+
 const stepper: Component = {
-  measure(node) {
-    return { w: explicitW(node) ?? 0, h: explicitH(node) ?? 48 };
+  measure(node, ctx) {
+    const steps = stepLabels(node);
+    // Each step gets an equal segment wide enough for its label (min 72px).
+    const segW = Math.max(72, ...steps.map((s) => ctx.pen.measureText(s, 12) + 24));
+    return { w: explicitW(node) ?? segW * steps.length, h: explicitH(node) ?? 48 };
   },
   draw(node, box, ctx) {
-    const steps = (node.text ?? "Step 1 | Step 2 | Step 3").split("|").map((s) => s.trim());
+    const steps = stepLabels(node);
     const active = num(node, "active", 0);
     const n = steps.length;
     const segW = box.w / n;
@@ -224,12 +231,18 @@ const stepper: Component = {
 
 // --- menubar ------------------------------------------------------------------
 
+function menubarItems(node: Node): string[] {
+  return (node.text ?? "File | Edit | View").split("|").map((s) => s.trim());
+}
+
 const menubar: Component = {
-  measure(node) {
-    return { w: explicitW(node) ?? 0, h: explicitH(node) ?? 32 };
+  measure(node, ctx) {
+    const items = menubarItems(node);
+    const w = 12 + items.reduce((sum, it) => sum + ctx.pen.measureText(it) + 20, 0);
+    return { w: explicitW(node) ?? w, h: explicitH(node) ?? 32 };
   },
   draw(node, box, ctx) {
-    const items = (node.text ?? "File | Edit | View").split("|").map((s) => s.trim());
+    const items = menubarItems(node);
     ctx.pen.rect(box.x, box.y, box.w, box.h, { fill: "#f4f4f4", fillStyle: "solid" });
     let x = box.x + 6;
     items.forEach((it) => {
@@ -341,9 +354,15 @@ const accordion: Component = {
     let h = 0;
     node.children.forEach((child, i) => {
       h += 40; // header
-      const open = ctx.store.peek(childPath(ctx.path, i))?.open ?? false;
+      const itemPath = childPath(ctx.path, i);
+      const open = ctx.store.peek(itemPath)?.open ?? false;
       if (open && child.children.length) {
+        // Body children are keyed under the item's path (see draw), so
+        // measure them under the same path for consistent state resolution.
+        const prev = ctx.path;
+        ctx.path = itemPath;
         const inner = measureFlex(child.children, "col", SPACING.gap, ctx, w - 24);
+        ctx.path = prev;
         h += inner.h + 20;
       }
     });
@@ -372,63 +391,17 @@ const accordion: Component = {
       y += headerH;
 
       if (open && child.children.length) {
-        const inner = measureFlex(child.children, "col", SPACING.gap, ctx, box.w - 24);
-        const bodyH = inner.h + 20;
-        const content: Box = { x: box.x + 12, y: y + 10, w: box.w - 24, h: inner.h };
         // The accordion item is the parent of its body children for path keying.
         const prev = ctx.path;
         ctx.path = itemPath;
+        const inner = measureFlex(child.children, "col", SPACING.gap, ctx, box.w - 24);
+        const bodyH = inner.h + 20;
+        const content: Box = { x: box.x + 12, y: y + 10, w: box.w - 24, h: inner.h };
         arrangeFlex(child.children, "col", SPACING.gap, content, "stretch", ctx);
         ctx.path = prev;
         y += bodyH;
       }
     });
-  },
-};
-
-// --- menu (button that opens an action dropdown) ------------------------------
-
-const menu: Component = {
-  measure(node, ctx) {
-    const label = textOf(node, "Menu");
-    return { w: explicitW(node) ?? ctx.pen.measureText(label, ctx.pen.theme.fontSize, true) + 40, h: explicitH(node) ?? CH };
-  },
-  draw(node, box, ctx) {
-    const path = ctx.path;
-    const open = ctx.store.peek(path)?.open ?? false;
-    const items = (str(node, "items") || "Edit, Duplicate, Delete").split(",").map((s) => s.trim());
-    ctx.pen.roundRect(box.x, box.y, box.w, box.h, 7);
-    ctx.pen.text(textOf(node, "Menu"), box.x + 12, box.y + box.h / 2, { bold: true });
-    // caret
-    const cx = box.x + box.w - 14;
-    const cy = box.y + box.h / 2;
-    ctx.pen.line(cx - 5, cy - 3, cx, cy + 3, { strokeWidth: 1.4 });
-    ctx.pen.line(cx, cy + 3, cx + 5, cy - 3, { strokeWidth: 1.4 });
-    ctx.frame.addHit({ box, z: 1, onClick: () => ctx.store.set(path, { open: !open }) });
-
-    if (open) {
-      const rowH = CH;
-      const w = Math.max(box.w, 140);
-      const listBox: Box = { x: box.x, y: box.y + box.h + 4, w, h: rowH * items.length };
-      const pen = ctx.pen;
-      const regions = items.map((_, i) => ({
-        box: { x: listBox.x, y: listBox.y + i * rowH, w: listBox.w, h: rowH } as Box,
-        z: 10,
-        onClick: () => ctx.store.set(path, { open: false, active: i }),
-      }));
-      ctx.frame.addOverlay({
-        z: 10,
-        regions,
-        draw: () => {
-          pen.roundRect(listBox.x, listBox.y, listBox.w, listBox.h, 6, { fill: pen.theme.paper, fillStyle: "solid" });
-          items.forEach((it, i) => {
-            const ry = listBox.y + i * rowH;
-            pen.text(it, listBox.x + 10, ry + rowH / 2, { color: it.toLowerCase() === "delete" ? "#c0392b" : pen.theme.ink });
-            if (i < items.length - 1) pen.line(listBox.x, ry + rowH, listBox.x + listBox.w, ry + rowH, { stroke: "#eee" });
-          });
-        },
-      });
-    }
   },
 };
 
@@ -448,5 +421,4 @@ export function registerWidgets(): void {
   register("stat", stat);
   register("calendar", calendar);
   register("accordion", accordion);
-  register("menu", menu);
 }

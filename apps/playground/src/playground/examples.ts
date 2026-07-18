@@ -10,6 +10,7 @@ export const EXAMPLES: Example[] = [
     name: "Login screen",
     source: `screen "Login" size=380x520
   navbar "MyApp"
+    spacer
     avatar
   col pad=24 gap=16
     heading "Welcome back"
@@ -28,10 +29,10 @@ export const EXAMPLES: Example[] = [
     name: "Dashboard",
     source: `screen "Dashboard" size=900x560
   navbar "Analytics"
-    tabs "Overview | Reports | Settings" active=0
+    tabs "Overview | Reports | Settings" active=0 fill
     avatar
   row gap=16 fill
-    sidebar w=170
+    sidebar w=170 filly
       list "Home, Traffic, Sales, Users" active=1
     col gap=16 fill
       row gap=16
@@ -107,8 +108,8 @@ screen "Settings" size=380x420
   navbar "grafiq"
     tabs "Files | History" active=0
   row gap=16 fill
-    sidebar w=210
-      tree
+    sidebar w=210 filly
+      tree fill
         item "src" open
           item "components" open
             item "Button.tsx" selected
@@ -118,7 +119,7 @@ screen "Settings" size=380x420
         item "README.md"
     col gap=12 fill
       heading "Team members"
-      table "Name | Role | Access | 2FA" widths="3,2,2,1" align="left,left,center,center" zebra sort="0:asc"
+      table "Name | Role | Access | 2FA" widths="3,2,2,1" align="left,left,center,center" zebra sort="0:asc" fill
         row "Ada Lovelace | Engineer | Admin | [x]" selected
         row "Grace Hopper | PM | Write | [x]"
         row "Alan Turing | Research | Read | [ ]"
@@ -145,7 +146,7 @@ row gap=20 align=start
     pagination pages=5 active=1
     stepper "Cart | Shipping | Pay" active=1
     menubar "File | Edit | View"
-    menu "Actions" items="Rename, Duplicate, Delete"
+    select "Actions" options="Rename, Duplicate, Delete"
   col gap=10
     text "Data" muted
     row gap=16
@@ -162,6 +163,74 @@ accordion w=360
   item "Can I export?"
     button "Download PNG" primary
 calendar day=14 start=6 month="March 2025"`,
+  },
+  {
+    name: "Icons",
+    source: `heading "Icons"
+text "Hand-drawn pictograms — same sketchy style as everything else." muted
+
+col gap=14
+  row gap=14
+    icon name=star
+    icon name=heart
+    icon name=home
+    icon name=gear
+    icon name=search
+    icon name=user
+    icon name=bell
+    icon name=mail
+    icon name=calendar
+    icon name=clock
+    icon name=bookmark
+    icon name=globe
+  row gap=14
+    icon name=camera
+    icon name=image
+    icon name=phone
+    icon name=pin
+    icon name=check
+    icon name=x
+    icon name=plus
+    icon name=minus
+    icon name=trash
+    icon name=edit
+    icon name=download
+    icon name=upload
+  row gap=14
+    icon name=refresh
+    icon name=share
+    icon name=filter
+    icon name=link
+    icon name=eye
+    icon name=lock
+    icon name=unlock
+    icon name=menu
+    icon name=dots
+    icon name=play
+    icon name=pause
+    icon name=info
+  row gap=14
+    icon name=warning
+    icon name=question
+    icon name=folder
+    icon name=file
+    icon name=cart
+    icon name=chat
+    icon name=arrow-up
+    icon name=arrow-down
+    icon name=arrow-left
+    icon name=arrow-right
+    icon name=chevron-down
+    icon name=chevron-right
+
+divider
+
+row gap=20 align=center
+  col gap=6 align=center { icon name=star size=48; text "size=48" muted }
+  col gap=6 align=center { icon name=heart size=36 color=danger; text "color=danger" muted }
+  col gap=6 align=center { icon name=check size=36 color=success; text "color=success" muted }
+  col gap=6 align=center { icon name=warning size=36 color=warning; text "color=warning" muted }
+  col gap=6 align=center { icon name=rocket size=36; text "fallback" muted }`,
   },
   {
     name: "Kitchen sink",

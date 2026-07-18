@@ -35,8 +35,10 @@ accepted (`btn`→`button`), and errors show up as a sticky note instead of fail
 - `col` — lay children out vertically
 - Attributes on any container: `gap=N` (space between children), `pad=N`
   (inner padding), `align=start|center|end|stretch` (cross-axis).
-- Sizing: `w=N`, `h=N`, or `size=WxH`. Add flag `fill` to stretch along the
-  parent's main axis. `spacer` is an invisible flexible gap (pushes siblings apart).
+- Sizing: `w=N`, `h=N`, or `size=WxH`. Fill flags on a child claim the parent's
+  free space: `fill` stretches in **both** directions, `fillx` only horizontally,
+  `filly` only vertically. Explicit `w=`/`h=` wins over stretching. `spacer` is
+  an invisible flexible gap (pushes siblings apart).
 
 ```
 row gap=12
@@ -64,7 +66,7 @@ row gap=12
 | `checkbox "Label" checked` | |
 | `radio "Label" selected` | |
 | `toggle "Label" on` | On/off switch. |
-| `select "Placeholder" options="A, B, C"` | Dropdown; click to open + pick. |
+| `select "Placeholder" options="A, B, C"` | Dropdown; click to open + pick. `items=` works too. |
 | `slider value=60` | 0–100. |
 
 
@@ -99,7 +101,6 @@ row gap=12
 | `pagination pages=5 active=1` | ‹ 1 2 3 › — click a page (interactive). |
 | `stepper "Cart \| Ship \| Pay" active=1` | Numbered step progress (split on `\|`). |
 | `menubar "File \| Edit \| View"` | App menu bar. |
-| `menu "Actions" items="Edit, Delete"` | Button opening an action dropdown (interactive). |
 | `accordion` + child `item "Title"` | Collapsible sections; an item's children are its body. Click to expand (interactive). |
 
 ### Data & media

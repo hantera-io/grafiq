@@ -127,24 +127,32 @@
   backdrop-filter: blur(2px);
 }
 
+/* Full-screen dialog: the viewer always fills the viewport (minus overlay
+   padding) and the mockup is centered inside it. */
 .grafiq-lightbox__dialog {
   position: relative;
-  max-width: 95vw;
-  max-height: 92vh;
+  width: calc(100vw - 48px);
+  height: calc(100vh - 48px);
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
   padding: 16px;
+  box-sizing: border-box;
 }
 
 .grafiq-lightbox__body {
+  display: flex;
+  width: 100%;
+  height: 100%;
   overflow: auto;
-  max-width: calc(95vw - 32px);
-  max-height: calc(92vh - 32px);
 }
 
 .grafiq-lightbox__body canvas {
   display: block;
+  /* `margin: auto` centers the canvas both ways while keeping the top/left
+     edges reachable via scrolling when the mockup exceeds the viewport
+     (unlike flex centering, which would clip them). */
+  margin: auto;
 }
 
 .grafiq-lightbox__close {

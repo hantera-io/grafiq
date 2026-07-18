@@ -24,6 +24,13 @@ export { resolveAlias, ALIASES } from "./parser/aliases.ts";
 export { render, type RenderOptions, type RenderResult } from "./render/renderer.ts";
 export { Pen, type TextAlign } from "./render/pen.ts";
 export {
+  registerIcon,
+  getIcon,
+  hasIcon,
+  iconNames,
+  type IconGlyph,
+} from "./render/icons.ts";
+export {
   DEFAULT_THEME,
   SPACING,
   VARIANTS,
@@ -46,6 +53,8 @@ export {
   measureFlex,
   arrangeFlex,
   childFills,
+  childFillsMain,
+  childFillsCross,
   gapOf,
   padOf,
   type Axis,

@@ -102,12 +102,23 @@ const navbar: Component = {
 
 // --- tabs ---------------------------------------------------------------------
 
+function tabLabels(node: Node): string[] {
+  return (node.text ?? "Tab 1 | Tab 2 | Tab 3").split("|").map((s) => s.trim());
+}
+
 const tabs: Component = {
-  measure(node) {
-    return { w: explicitW(node) ?? 0, h: explicitH(node) ?? 38 };
+  measure(node, ctx) {
+    const labels = tabLabels(node);
+    const active = num(node, "active", 0);
+    const w =
+      labels.reduce(
+        (sum, label, i) => sum + ctx.pen.measureText(label, ctx.pen.theme.fontSize, i === active) + 28,
+        0
+      ) + 6 * Math.max(0, labels.length - 1);
+    return { w: explicitW(node) ?? w, h: explicitH(node) ?? 38 };
   },
   draw(node, box, ctx) {
-    const labels = (node.text ?? "Tab 1 | Tab 2 | Tab 3").split("|").map((s) => s.trim());
+    const labels = tabLabels(node);
     const st = ctx.store.peek(ctx.path);
     const active = st?.active ?? num(node, "active", 0);
     const path = ctx.path;
@@ -191,7 +202,10 @@ const table: Component = {
     const { rows, selected } = tableModel(node);
     if (rows.length === 0) return;
     const cols = rows[0].length;
-    const rowH = box.h / rows.length;
+    // Rows keep their natural height when the table is given extra space
+    // (e.g. via `fill`); the frame and column gridlines extend to fill the box.
+    // When the box is smaller than natural, rows squeeze to fit.
+    const rowH = Math.min(ROW_H, box.h / rows.length);
 
     // Column widths: relative weights from `widths="2,1,1"`, else equal.
     const colX = columnEdges(node, box, cols);

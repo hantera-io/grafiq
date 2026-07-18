@@ -87,6 +87,16 @@ export class Pen {
     this.rc.circle(cx, cy, d, this.opts(o));
   }
 
+  /** Sketchy SVG-style path (M/L/Q/C/Z …) with the seeded rough defaults. */
+  path(d: string, o: Record<string, unknown> = {}) {
+    this.rc.path(d, this.opts(o));
+  }
+
+  /** Sketchy closed polygon from a list of [x, y] points. */
+  polygon(points: [number, number][], o: Record<string, unknown> = {}) {
+    this.rc.polygon(points, this.opts(o));
+  }
+
   /** A box crossed with an X — the classic "image placeholder". */
   imageBox(x: number, y: number, w: number, h: number) {
     this.rect(x, y, w, h);

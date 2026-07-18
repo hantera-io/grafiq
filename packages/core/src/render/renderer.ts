@@ -89,10 +89,19 @@ function makeContext(
     state(path: string): NodeState {
       return store.get(path);
     },
-    measure(node, availW) {
+    measure(node, availW, path) {
       const comp = getComponent(node.type);
       if (!comp) return { w: 90, h: 28 };
-      return comp.measure(node, ctx, availW);
+      // Set the node's path while measuring so state-aware components
+      // (accordion, tree, …) resolve the same interaction state they will
+      // use when drawing. Without this, expanded content measures collapsed
+      // and overlaps siblings / overflows the canvas.
+      if (path === undefined) return comp.measure(node, ctx, availW);
+      const prevPath = ctx.path;
+      ctx.path = path;
+      const m = comp.measure(node, ctx, availW);
+      ctx.path = prevPath;
+      return m;
     },
     drawNode(node, box, path) {
       const comp = getComponent(node.type);
@@ -183,8 +192,8 @@ export function render(
 
   let contentW = 0;
   let contentH = 0;
-  const measured = nodes.map((n) => {
-    const m = measureCtx.measure(n, maxWidth - pad * 2);
+  const measured = nodes.map((n, i) => {
+    const m = measureCtx.measure(n, maxWidth - pad * 2, childPath("", i));
     contentW = Math.max(contentW, m.w);
     contentH += m.h;
     return m;

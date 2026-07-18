@@ -23,6 +23,7 @@ export const ALIASES: Record<string, string> = {
   option: "radio",
   dropdown: "select",
   combo: "select",
+  menu: "select",
   switch: "toggle",
   range: "slider",
   searchbox: "search",
