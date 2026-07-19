@@ -49,4 +49,4 @@ screen "Login" size=380x520
     button "Continue with Google"
 ```
 
-Hover the mockup and click the ⤢ button to open it fullscreen.
+Hover the mockup and click the </> button to see the source.
